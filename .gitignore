@@ -13,3 +13,8 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+.ready
+_ide_helper.php
+phpstan.neon
+.phpstorm.meta.php
+/public/assets
