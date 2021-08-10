@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegistrationStepTwoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+    Route::group(['middleware' => ['registration.not.completed']], function () {
+        Route::view('/dashboard', 'dashboard')->name('dashboard');
+    });
+
+    Route::group([
+        'prefix'     => 'registration-step-two',
+        'as'         => 'registration-step-two.',
+        'middleware' => 'registration.completed',
+    ], function () {
+        Route::get('', [RegistrationStepTwoController::class, 'edit'])->name('edit');
+        Route::patch('', [RegistrationStepTwoController::class, 'update'])->name('update');
+    });
+});
