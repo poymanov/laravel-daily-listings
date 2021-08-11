@@ -7,6 +7,8 @@ namespace Tests\Feature\Auth\RegistrationStepTwo;
 use App\Models\City;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class UpdateTest extends TestCase
@@ -101,5 +103,40 @@ class UpdateTest extends TestCase
             'address' => $address,
             'phone'   => $phone,
         ]);
+    }
+
+    /**
+     * Успешное завершение регистрации c добавлением фото профиля
+     */
+    public function testSuccessWithPhoto()
+    {
+        Storage::fake('public');
+
+        /** @var City $city */
+        $city = City::factory()->create();
+
+        $user = $this->createUser([], true);
+
+        $this->signIn($user);
+
+        $address = $this->faker->address();
+        $phone   = $this->faker->phoneNumber();
+
+        $response = $this->patch(self::URL, [
+            'city_id' => $city->id,
+            'address' => $address,
+            'phone'   => $phone,
+            'photo'   => UploadedFile::fake()->image('photo.jpg'),
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect('/dashboard');
+
+        $this->assertDatabaseMissing('users', [
+            'id'                 => $user->id,
+            'profile_photo_path' => null,
+        ]);
+
+        $this->assertCount(1, Storage::disk('public')->allFiles());
     }
 }

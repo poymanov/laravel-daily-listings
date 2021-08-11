@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\RegistrationStepTwo\UpdateRequest;
 use App\Service\CityService;
 use App\UseCase\Auth\RegistrationStepTwo\Update;
+use Illuminate\Http\UploadedFile;
 use Throwable;
 
 class RegistrationStepTwoController extends Controller
@@ -41,11 +42,15 @@ class RegistrationStepTwoController extends Controller
     {
         $userId = auth()->id();
 
+        /** @var UploadedFile $photo */
+        $photo = $request->file('photo');
+
         $command = new Update\Command(
             (int) $userId,
             (int) $request->get('city_id'),
             $request->get('address'),
-            $request->get('phone')
+            $request->get('phone'),
+            $photo
         );
 
         try {

@@ -50,6 +50,7 @@ class EditTest extends TestCase
         $response->assertSee('Phone');
         $response->assertSee('Address');
         $response->assertSee('City');
+        $response->assertSee('Profile photo');
         $response->assertSee($cityFirst->name);
         $response->assertSee($citySecond->name);
     }

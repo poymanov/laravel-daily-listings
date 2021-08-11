@@ -32,5 +32,9 @@ class Handler
         if (!$user->save()) {
             throw new Exception('Failed to update user data, ID: ' . $userId);
         }
+
+        if (!is_null($command->getPhoto())) {
+            $user->updateProfilePhoto($command->getPhoto());
+        }
     }
 }

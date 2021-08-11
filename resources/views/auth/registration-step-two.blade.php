@@ -6,7 +6,7 @@
 
         <x-jet-validation-errors class="mb-4"/>
 
-        <form method="POST" action="{{ route('registration-step-two.update') }}">
+        <form method="POST" action="{{ route('registration-step-two.update') }}" enctype="multipart/form-data">
             @csrf
             @method('patch')
 
@@ -22,12 +22,17 @@
 
             <div class="mb-4">
                 <x-jet-label for="address" value="{{ __('Address') }}"/>
-                <x-jet-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required/>
+                <x-jet-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
             </div>
 
             <div class="mb-4">
                 <x-jet-label for="phone" value="{{ __('Phone') }}"/>
-                <x-jet-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="phone"/>
+                <x-jet-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="phone" />
+            </div>
+
+            <div class="mb-4">
+                <x-jet-label for="photo" value="{{ __('Profile photo') }}"/>
+                <x-jet-input id="photo" class="block mt-1 w-full" type="file" name="photo"/>
             </div>
 
             <div class="flex items-center justify-end">
