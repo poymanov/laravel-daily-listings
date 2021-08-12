@@ -6,6 +6,8 @@
 
         <x-jet-validation-errors class="mb-4"/>
 
+        <x-alert class="mb-4" />
+
         <form method="POST" action="{{ route('registration-step-two.update') }}" enctype="multipart/form-data">
             @csrf
             @method('patch')

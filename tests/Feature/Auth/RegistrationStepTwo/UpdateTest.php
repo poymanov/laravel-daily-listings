@@ -96,6 +96,7 @@ class UpdateTest extends TestCase
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect('/dashboard');
+        $response->assertSessionHas('alert.success', 'Registration completed');
 
         $this->assertDatabaseHas('users', [
             'id'      => $user->id,
@@ -131,6 +132,7 @@ class UpdateTest extends TestCase
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect('/dashboard');
+        $response->assertSessionHas('alert.success', 'Registration completed');
 
         $this->assertDatabaseMissing('users', [
             'id'                 => $user->id,

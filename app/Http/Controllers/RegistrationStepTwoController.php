@@ -57,9 +57,9 @@ class RegistrationStepTwoController extends Controller
             $handler = new Update\Handler();
             $handler->handle($command);
 
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard')->with('alert.success', 'Registration completed');
         } catch (Throwable $e) {
-            return redirect()->back();
+            return redirect()->back()->with('alert.error', 'Failed to complete registration');
         }
     }
 }
