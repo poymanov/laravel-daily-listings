@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -37,5 +38,18 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $factory->create($params);
+    }
+
+
+    /**
+     * Создание сущности {@see Listing}
+     *
+     * @param array $params Параметры нового объекта
+     *
+     * @return Listing
+     */
+    protected function createListing(array $params = []): Listing
+    {
+        return Listing::factory()->create($params);
     }
 }

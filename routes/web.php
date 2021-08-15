@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ListingController;
 use App\Http\Controllers\RegistrationStepTwoController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,7 @@ Route::view('/', 'welcome');
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::group(['middleware' => ['registration.not.completed']], function () {
         Route::view('/dashboard', 'dashboard')->name('dashboard');
+        Route::resource('listing', ListingController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
     });
 
     Route::group([
