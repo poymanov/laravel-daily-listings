@@ -7,11 +7,11 @@ namespace Tests\Feature\Listing;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class IndexTest extends TestCase
+class CreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const URL = '/listing';
+    private const URL = '/listing/create';
 
     /**
      * Попытка посещения гостем
@@ -43,9 +43,10 @@ class IndexTest extends TestCase
         $response = $this->get(self::URL);
         $response->assertOk();
 
+        $response->assertSee('New Listing');
+        $response->assertSee('Title');
+        $response->assertSee('Description');
+        $response->assertSee('Price');
         $response->assertSee('Create');
-        $response->assertSee($listing->title);
-        $response->assertSee($listing->description);
-        $response->assertSee($listing->price);
     }
 }
