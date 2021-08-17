@@ -37,7 +37,7 @@ class CreateTest extends TestCase
      */
     public function testSuccess()
     {
-        $listing = $this->createListing();
+        $this->createListing();
 
         $this->signIn($this->createUser());
         $response = $this->get(self::URL);

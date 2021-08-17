@@ -48,4 +48,30 @@ class IndexTest extends TestCase
         $response->assertSee($listing->description);
         $response->assertSee($listing->price);
     }
+
+    /**
+     * Кнопка редактирования не отображается для предложений других пользователей
+     */
+    public function testAnotherUserEditButton()
+    {
+        $this->createListing();
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertDontSee('Edit');
+    }
+
+    /**
+     * Кнопка редактирования отображается для предложений авторизованного пользователя
+     */
+    public function testEditButton()
+    {
+        $user = $this->createUser();
+
+        $this->createListing(['user_id' => $user->id]);
+
+        $this->signIn($user);
+        $response = $this->get(self::URL);
+        $response->assertSee('Edit');
+    }
 }

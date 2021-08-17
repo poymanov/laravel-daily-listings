@@ -28,6 +28,7 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Price
                                         </th>
+                                        <th scope="col" class="relative px-6 py-3"></th>
                                     </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
@@ -41,6 +42,11 @@
                                             </td>
                                             <td class="px-6 py-4 text-sm text-gray-500">
                                                 {{ $listing->price }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                @can('update', $listing)
+                                                    <a href="{{ route('listing.edit', $listing) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
