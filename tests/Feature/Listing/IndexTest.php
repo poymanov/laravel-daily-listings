@@ -50,9 +50,9 @@ class IndexTest extends TestCase
     }
 
     /**
-     * Кнопка редактирования не отображается для предложений других пользователей
+     * Ссылка редактирования не отображается для предложений других пользователей
      */
-    public function testAnotherUserEditButton()
+    public function testAnotherUserEditLink()
     {
         $this->createListing();
 
@@ -62,9 +62,9 @@ class IndexTest extends TestCase
     }
 
     /**
-     * Кнопка редактирования отображается для предложений авторизованного пользователя
+     * Ссылка редактирования отображается для предложений авторизованного пользователя
      */
-    public function testEditButton()
+    public function testEditLink()
     {
         $user = $this->createUser();
 
@@ -73,5 +73,31 @@ class IndexTest extends TestCase
         $this->signIn($user);
         $response = $this->get(self::URL);
         $response->assertSee('Edit');
+    }
+
+    /**
+     * Ссылка удаления не отображается для предложений других пользователей
+     */
+    public function testAnotherUserDeleteLink()
+    {
+        $this->createListing();
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertDontSee('Delete');
+    }
+
+    /**
+     * Ссылка удаления отображается для предложений авторизованного пользователя
+     */
+    public function testDeleteLink()
+    {
+        $user = $this->createUser();
+
+        $this->createListing(['user_id' => $user->id]);
+
+        $this->signIn($user);
+        $response = $this->get(self::URL);
+        $response->assertSee('Delete');
     }
 }

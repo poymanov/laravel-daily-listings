@@ -43,9 +43,17 @@
                                             <td class="px-6 py-4 text-sm text-gray-500">
                                                 {{ $listing->price }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end">
                                                 @can('update', $listing)
-                                                    <a href="{{ route('listing.edit', $listing) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                                    <a href="{{ route('listing.edit', $listing) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
+                                                @endcan
+
+                                                @can('delete', $listing)
+                                                    <form action="{{ route('listing.destroy', $listing) }}" method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button onclick="return confirm('Are you sure?')" class="text-indigo-600 hover:text-indigo-900">Delete</button>
+                                                    </form>
                                                 @endcan
                                             </td>
                                         </tr>

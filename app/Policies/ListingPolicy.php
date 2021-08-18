@@ -11,14 +11,23 @@ class ListingPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can update the model.
-     *
      * @param \App\Models\User    $user
      * @param \App\Models\Listing $listing
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(User $user, Listing $listing)
+    {
+        return $user->id == $listing->user_id;
+    }
+
+    /**
+     * @param \App\Models\User    $user
+     * @param \App\Models\Listing $listing
+     *
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function delete(User $user, Listing $listing)
     {
         return $user->id == $listing->user_id;
     }

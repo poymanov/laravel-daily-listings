@@ -8,6 +8,7 @@ use App\Models\Listing;
 use App\Service\ListingService;
 use App\UseCase\Listing\Create;
 use App\UseCase\Listing\Update;
+use App\UseCase\Listing\Delete;
 use Throwable;
 
 class ListingController extends Controller
@@ -108,6 +109,30 @@ class ListingController extends Controller
             return redirect()->route('listing.index')->with('alert.success', 'Listing updated');
         } catch (Throwable $e) {
             return redirect()->back()->with('alert.error', 'Failed to update listing');
+        }
+    }
+
+    /**
+     * @param Listing $listing
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function destroy(Listing $listing)
+    {
+        $this->authorize('delete', $listing);
+
+        $userId = auth()->id();
+
+        $command = new Delete\Command($listing->id, (int) $userId);
+
+        try {
+            $handler = new Delete\Handler();
+            $handler->handle($command);
+
+            return redirect()->route('listing.index')->with('alert.success', 'Listing deleted');
+        } catch (Throwable $e) {
+            return redirect()->back()->with('alert.error', 'Failed to delete listing');
         }
     }
 }
