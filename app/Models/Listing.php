@@ -4,17 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * App\Models\Listing
  *
- * @property int $id
- * @property string $title
- * @property string $description
- * @property int $price
- * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int                                                                                   $id
+ * @property string                                                                                $title
+ * @property string                                                                                $description
+ * @property int                                                                                   $price
+ * @property int                                                                                   $user_id
+ * @property \Illuminate\Support\Carbon|null                                                       $created_at
+ * @property \Illuminate\Support\Carbon|null                                                       $updated_at
  * @method static \Database\Factories\ListingFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Listing newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Listing newQuery()
@@ -27,8 +30,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Listing whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Listing whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
+ * @property-read int|null                                                                         $media_count
  */
-class Listing extends Model
+class Listing extends Model implements HasMedia
 {
     use HasFactory;
+
+    use InteractsWithMedia;
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')->width(200)->height(200);
+    }
 }

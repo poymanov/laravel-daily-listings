@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Listing;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
@@ -44,6 +46,27 @@ class IndexTest extends TestCase
         $response->assertOk();
 
         $response->assertSee('Create');
+        $response->assertSee($listing->title);
+        $response->assertSee($listing->description);
+        $response->assertSee($listing->price);
+    }
+
+    /**
+     * Страница успешно открывается с отображением изображений
+     */
+    public function testSuccessWithImage()
+    {
+        Storage::fake('public');
+
+        $listing = $this->createListing();
+        $listing->addMedia(UploadedFile::fake()->image('photo1.jpg'))->toMediaCollection('listings');
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee('Create');
+        $response->assertSee($listing->getFirstMediaUrl('listings', 'thumb'));
         $response->assertSee($listing->title);
         $response->assertSee($listing->description);
         $response->assertSee($listing->price);

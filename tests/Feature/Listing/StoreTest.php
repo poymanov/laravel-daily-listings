@@ -7,6 +7,8 @@ namespace Tests\Feature\Listing;
 use App\Models\Listing;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
@@ -114,5 +116,41 @@ class StoreTest extends TestCase
             'price'       => $listing->price,
             'user_id'     => $user->id,
         ]);
+    }
+
+    /**
+     * Успешное создание с загрузкой изображений
+     */
+    public function testSuccessWithImages()
+    {
+        Storage::fake('public');
+
+        $user = $this->createUser();
+
+        $this->signIn($user);
+
+        /** @var Listing $listing */
+        $listing = Listing::factory()->make();
+
+        $response = $this->post(self::URL, $listing->toArray() + [
+                'photo1' => UploadedFile::fake()->image('photo1.jpg'),
+                'photo2' => UploadedFile::fake()->image('photo2.jpg'),
+                'photo3' => UploadedFile::fake()->image('photo3.jpg'),
+            ]);
+
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect('/listing');
+
+        $response->assertSessionHas('alert.success', 'Listing created');
+
+        $this->assertDatabaseHas('listings', [
+            'title'       => $listing->title,
+            'description' => $listing->description,
+            'price'       => $listing->price,
+            'user_id'     => $user->id,
+        ]);
+
+        $this->assertDatabaseCount('media', 3);
+        $this->assertCount(6, Storage::disk('public')->allFiles());
     }
 }

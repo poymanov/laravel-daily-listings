@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Listing;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class DeleteTest extends TestCase
@@ -65,6 +67,31 @@ class DeleteTest extends TestCase
         $this->assertDatabaseMissing('listings', [
             'id' => $listing->id,
         ]);
+    }
+
+    /**
+     * Успешное удаление
+     */
+    public function testSuccessWithImages()
+    {
+        Storage::fake('public');
+
+        $user    = $this->createUser();
+        $listing = $this->createListing(['user_id' => $user->id]);
+        $listing->addMedia(UploadedFile::fake()->image('photo1.jpg'))->toMediaCollection('listings');
+
+        $this->signIn($user);
+        $response = $this->delete($this->makeUrl($listing->id));
+        $response->assertRedirect('/listing');
+
+        $response->assertSessionHas('alert.success', 'Listing deleted');
+
+        $this->assertDatabaseMissing('listings', [
+            'id' => $listing->id,
+        ]);
+
+        $this->assertDatabaseCount('media', 0);
+        $this->assertCount(0, Storage::disk('public')->allFiles());
     }
 
     /**

@@ -48,5 +48,8 @@ class CreateTest extends TestCase
         $response->assertSee('Description');
         $response->assertSee('Price');
         $response->assertSee('Create');
+        $response->assertSee('Photo 1');
+        $response->assertSee('Photo 2');
+        $response->assertSee('Photo 3');
     }
 }

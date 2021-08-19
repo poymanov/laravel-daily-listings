@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase\Listing\Create;
 
+use Illuminate\Http\UploadedFile;
+
 class Command
 {
     /** @var string */
@@ -18,18 +20,23 @@ class Command
     /** @var int */
     private int $userId;
 
+    /** @var UploadedFile[] */
+    private array $photos;
+
     /**
-     * @param string $title
-     * @param string $description
-     * @param int    $price
-     * @param int    $userId
+     * @param string         $title
+     * @param string         $description
+     * @param int            $price
+     * @param int            $userId
+     * @param UploadedFile[] $photos
      */
-    public function __construct(string $title, string $description, int $price, int $userId)
+    public function __construct(string $title, string $description, int $price, int $userId, array $photos)
     {
         $this->title       = $title;
         $this->description = $description;
         $this->price       = $price;
         $this->userId      = $userId;
+        $this->photos      = $photos;
     }
 
     /**
@@ -62,5 +69,13 @@ class Command
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    /**
+     * @return UploadedFile[]
+     */
+    public function getPhotos(): array
+    {
+        return $this->photos;
     }
 }

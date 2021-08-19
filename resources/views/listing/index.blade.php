@@ -20,6 +20,9 @@
                                     <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Image
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Title
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -34,6 +37,11 @@
                                     <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach($listings as $listing)
                                         <tr>
+                                            <td>
+                                                @if($listing->hasMedia('listings'))
+                                                    <img src="{{ $listing->getFirstMediaUrl('listings', 'thumb') }}"/>
+                                                @endif
+                                            </td>
                                             <td class="px-6 py-4 text-sm text-gray-500">
                                                 {{ $listing->title }}
                                             </td>
@@ -43,7 +51,7 @@
                                             <td class="px-6 py-4 text-sm text-gray-500">
                                                 {{ $listing->price }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end">
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center">
                                                 @can('update', $listing)
                                                     <a href="{{ route('listing.edit', $listing) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
                                                 @endcan

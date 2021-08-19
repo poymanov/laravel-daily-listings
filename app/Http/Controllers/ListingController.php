@@ -51,11 +51,18 @@ class ListingController extends Controller
     {
         $userId = auth()->id();
 
+        $photos = [];
+
+        foreach ($request->allFiles() as $file) {
+            $photos[] = $file;
+        }
+
         $command = new Create\Command(
             $request->get('title'),
             $request->get('description'),
             (int) $request->get('price'),
             (int) $userId,
+            $photos
         );
 
         try {
