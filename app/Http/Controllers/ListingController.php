@@ -9,6 +9,7 @@ use App\Service\ListingService;
 use App\UseCase\Listing\Create;
 use App\UseCase\Listing\Update;
 use App\UseCase\Listing\Delete;
+use Illuminate\Http\UploadedFile;
 use Throwable;
 
 class ListingController extends Controller
@@ -51,18 +52,15 @@ class ListingController extends Controller
     {
         $userId = auth()->id();
 
-        $photos = [];
-
-        foreach ($request->allFiles() as $file) {
-            $photos[] = $file;
-        }
+        /** @var UploadedFile $photo */
+        $photo = $request->file('photo');
 
         $command = new Create\Command(
             $request->get('title'),
             $request->get('description'),
             (int) $request->get('price'),
             (int) $userId,
-            $photos
+            $photo
         );
 
         try {

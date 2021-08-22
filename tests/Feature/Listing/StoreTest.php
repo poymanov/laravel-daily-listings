@@ -119,9 +119,9 @@ class StoreTest extends TestCase
     }
 
     /**
-     * Успешное создание с загрузкой изображений
+     * Успешное создание с загрузкой изображения
      */
-    public function testSuccessWithImages()
+    public function testSuccessWithImage()
     {
         Storage::fake('public');
 
@@ -133,9 +133,7 @@ class StoreTest extends TestCase
         $listing = Listing::factory()->make();
 
         $response = $this->post(self::URL, $listing->toArray() + [
-                'photo1' => UploadedFile::fake()->image('photo1.jpg'),
-                'photo2' => UploadedFile::fake()->image('photo2.jpg'),
-                'photo3' => UploadedFile::fake()->image('photo3.jpg'),
+                'photo' => UploadedFile::fake()->image('photo.jpg'),
             ]);
 
         $response->assertSessionHasNoErrors();
@@ -150,7 +148,7 @@ class StoreTest extends TestCase
             'user_id'     => $user->id,
         ]);
 
-        $this->assertDatabaseCount('media', 3);
-        $this->assertCount(6, Storage::disk('public')->allFiles());
+        $this->assertDatabaseCount('media', 1);
+        $this->assertCount(2, Storage::disk('public')->allFiles());
     }
 }

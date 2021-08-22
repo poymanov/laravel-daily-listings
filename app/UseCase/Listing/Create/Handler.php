@@ -36,7 +36,9 @@ class Handler
             throw new Exception('Failed to create listing');
         }
 
-        foreach ($command->getPhotos() as $photo) {
+        $photo = $command->getPhoto();
+
+        if ($photo) {
             $listing->addMedia($photo)->toMediaCollection('listings');
         }
     }

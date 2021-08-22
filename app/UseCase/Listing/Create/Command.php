@@ -20,23 +20,23 @@ class Command
     /** @var int */
     private int $userId;
 
-    /** @var UploadedFile[] */
-    private array $photos;
+    /** @var UploadedFile|null */
+    private ?UploadedFile $photo;
 
     /**
-     * @param string         $title
-     * @param string         $description
-     * @param int            $price
-     * @param int            $userId
-     * @param UploadedFile[] $photos
+     * @param string            $title
+     * @param string            $description
+     * @param int               $price
+     * @param int               $userId
+     * @param UploadedFile|null $photo
      */
-    public function __construct(string $title, string $description, int $price, int $userId, array $photos)
+    public function __construct(string $title, string $description, int $price, int $userId, ?UploadedFile $photo)
     {
         $this->title       = $title;
         $this->description = $description;
         $this->price       = $price;
         $this->userId      = $userId;
-        $this->photos      = $photos;
+        $this->photo       = $photo;
     }
 
     /**
@@ -72,10 +72,10 @@ class Command
     }
 
     /**
-     * @return UploadedFile[]
+     * @return UploadedFile|null
      */
-    public function getPhotos(): array
+    public function getPhoto(): ?UploadedFile
     {
-        return $this->photos;
+        return $this->photo;
     }
 }
