@@ -30,6 +30,12 @@
                             <x-jet-input id="price" class="block mt-1 w-full" type="text" name="price" :value="old('price', $listing->price)" required/>
                         </div>
 
+                        <div class="mb-4 flex flex-wrap">
+                            @foreach($listing->getMedia('listings') as $media)
+                                <a href="{{ $media->getUrl() }}" target="_blank" class="block mr-2 mb-2"><img src="{{ $media->getUrl('thumb') }}"></a>
+                            @endforeach
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <x-jet-button class="ml-4">
                                 {{ __('Update') }}

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Listing;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class EditTest extends TestCase
@@ -65,6 +67,37 @@ class EditTest extends TestCase
         $response->assertSee($listing->description);
         $response->assertSee($listing->price);
         $response->assertSee('Update');
+    }
+
+    /**
+     * Успешное открытие страницы редактирования с загруженными изображениями
+     */
+    public function testSuccessWithImages()
+    {
+        Storage::fake('public');
+
+        $user    = $this->createUser();
+        $listing = $this->createListing(['user_id' => $user->id]);
+        $listing->addMedia(UploadedFile::fake()->image('photo1.jpg'))->toMediaCollection('listings');
+        $listing->addMedia(UploadedFile::fake()->image('photo2.jpg'))->toMediaCollection('listings');
+
+        $this->signIn($user);
+        $response = $this->get($this->makeUrl($listing->id));
+        $response->assertOk();
+
+        $response->assertSee('Edit Listing');
+        $response->assertSee($listing->title);
+        $response->assertSee($listing->description);
+        $response->assertSee($listing->price);
+        $response->assertSee('Update');
+
+        $media = $listing->getMedia('listings');
+
+        $response->assertSee($media[0]->getUrl('thumb'));
+        $response->assertSee($media[0]->getUrl());
+
+        $response->assertSee($media[1]->getUrl('thumb'));
+        $response->assertSee($media[1]->getUrl());
     }
 
     /**
