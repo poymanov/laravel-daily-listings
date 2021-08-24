@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Listing;
+namespace Tests\Feature\Listing\Listing;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -13,7 +13,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const URL = '/listing';
+    private const URL = '/listings';
 
     /**
      * Попытка посещения гостем

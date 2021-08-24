@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\ListingController;
+use App\Http\Controllers\Listing\ListingController;
+use App\Http\Controllers\Listing\MediaController;
 use App\Http\Controllers\RegistrationStepTwoController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,11 @@ Route::view('/', 'welcome');
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::group(['middleware' => ['registration.not.completed']], function () {
         Route::view('/dashboard', 'dashboard')->name('dashboard');
-        Route::resource('listing', ListingController::class);
+        Route::resource('listings', ListingController::class);
+
+        Route::group(['prefix' => 'listings/{listing}/media', 'as' => 'listings.media.'], function () {
+            Route::get('', [MediaController::class, 'show'])->name('show');
+        });
     });
 
     Route::group([

@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-5 sm:rounded-lg">
-                <a href="{{ route('listing.create') }}" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create</a>
+                <a href="{{ route('listings.create') }}" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create</a>
             </div>
 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -53,11 +53,11 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center">
                                                 @can('update', $listing)
-                                                    <a href="{{ route('listing.edit', $listing) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
+                                                    <a href="{{ route('listings.edit', $listing) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
                                                 @endcan
 
                                                 @can('delete', $listing)
-                                                    <form action="{{ route('listing.destroy', $listing) }}" method="post">
+                                                    <form action="{{ route('listings.destroy', $listing) }}" method="post">
                                                         @csrf
                                                         @method('delete')
                                                         <button onclick="return confirm('Are you sure?')" class="text-indigo-600 hover:text-indigo-900">Delete</button>

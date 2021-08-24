@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Listing;
+namespace Tests\Feature\Listing\Listing;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -60,7 +60,7 @@ class DeleteTest extends TestCase
 
         $this->signIn($user);
         $response = $this->delete($this->makeUrl($listing->id));
-        $response->assertRedirect('/listing');
+        $response->assertRedirect('/listings');
 
         $response->assertSessionHas('alert.success', 'Listing deleted');
 
@@ -82,7 +82,7 @@ class DeleteTest extends TestCase
 
         $this->signIn($user);
         $response = $this->delete($this->makeUrl($listing->id));
-        $response->assertRedirect('/listing');
+        $response->assertRedirect('/listings');
 
         $response->assertSessionHas('alert.success', 'Listing deleted');
 
@@ -103,6 +103,6 @@ class DeleteTest extends TestCase
      */
     public function makeUrl(int $id): string
     {
-        return '/listing/' . $id;
+        return '/listings/' . $id;
     }
 }

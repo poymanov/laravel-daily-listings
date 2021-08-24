@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Listing;
+namespace Tests\Feature\Listing\Listing;
 
 use App\Models\Listing;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -132,7 +132,7 @@ class UpdateTest extends TestCase
 
         $response = $this->patch($this->makeUrl($listing->id), $listingDraft->toArray());
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect('/listing');
+        $response->assertRedirect('/listings');
 
         $response->assertSessionHas('alert.success', 'Listing updated');
 
@@ -153,6 +153,6 @@ class UpdateTest extends TestCase
      */
     public function makeUrl(int $id): string
     {
-        return '/listing/' . $id;
+        return '/listings/' . $id;
     }
 }

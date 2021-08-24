@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Listing;
+namespace Tests\Feature\Listing\Listing;
 
 use App\Models\Listing;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +16,7 @@ class StoreTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    private const URL = '/listing';
+    private const URL = '/listings';
 
     /**
      * Попытка посещения гостем
@@ -106,7 +106,7 @@ class StoreTest extends TestCase
 
         $response = $this->post(self::URL, $listing->toArray());
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect('/listing');
+        $response->assertRedirect('/listings');
 
         $response->assertSessionHas('alert.success', 'Listing created');
 
@@ -137,7 +137,7 @@ class StoreTest extends TestCase
             ]);
 
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect('/listing');
+        $response->assertRedirect('/listings');
 
         $response->assertSessionHas('alert.success', 'Listing created');
 

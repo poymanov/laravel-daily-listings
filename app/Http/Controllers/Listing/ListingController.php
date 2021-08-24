@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Listing;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Requests\Listing\CreateRequest;
 use App\Http\Requests\Requests\Listing\UpdateRequest;
 use App\Models\Listing;
@@ -32,7 +33,7 @@ class ListingController extends Controller
     {
         $listings = $this->listingService->findAll();
 
-        return view('listing.index', compact('listings'));
+        return view('listings.listings.index', compact('listings'));
     }
 
     /**
@@ -40,7 +41,7 @@ class ListingController extends Controller
      */
     public function create()
     {
-        return view('listing.create');
+        return view('listings.listings.create');
     }
 
     /**
@@ -67,7 +68,7 @@ class ListingController extends Controller
             $handler = new Create\Handler();
             $handler->handle($command);
 
-            return redirect()->route('listing.index')->with('alert.success', 'Listing created');
+            return redirect()->route('listings.index')->with('alert.success', 'Listing created');
         } catch (Throwable $e) {
             return redirect()->back()->with('alert.error', 'Failed to create listing');
         }
@@ -83,7 +84,7 @@ class ListingController extends Controller
     {
         $this->authorize('update', $listing);
 
-        return view('listing.edit', compact('listing'));
+        return view('listings.listings.edit', compact('listing'));
     }
 
     /**
@@ -111,7 +112,7 @@ class ListingController extends Controller
             $handler = new Update\Handler();
             $handler->handle($command);
 
-            return redirect()->route('listing.index')->with('alert.success', 'Listing updated');
+            return redirect()->route('listings.index')->with('alert.success', 'Listing updated');
         } catch (Throwable $e) {
             return redirect()->back()->with('alert.error', 'Failed to update listing');
         }
@@ -135,7 +136,7 @@ class ListingController extends Controller
             $handler = new Delete\Handler();
             $handler->handle($command);
 
-            return redirect()->route('listing.index')->with('alert.success', 'Listing deleted');
+            return redirect()->route('listings.index')->with('alert.success', 'Listing deleted');
         } catch (Throwable $e) {
             return redirect()->back()->with('alert.error', 'Failed to delete listing');
         }

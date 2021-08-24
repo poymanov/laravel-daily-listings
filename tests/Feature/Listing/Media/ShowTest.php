@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Listing;
+namespace Tests\Feature\Listing\Media;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class EditTest extends TestCase
+class ShowTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -51,28 +51,9 @@ class EditTest extends TestCase
     }
 
     /**
-     * Успешное открытие страницы редактирования
+     * Успешное открытие страницы с загруженными изображениями
      */
     public function testSuccess()
-    {
-        $user    = $this->createUser();
-        $listing = $this->createListing(['user_id' => $user->id]);
-
-        $this->signIn($user);
-        $response = $this->get($this->makeUrl($listing->id));
-        $response->assertOk();
-
-        $response->assertSee('Edit Listing');
-        $response->assertSee($listing->title);
-        $response->assertSee($listing->description);
-        $response->assertSee($listing->price);
-        $response->assertSee('Update');
-    }
-
-    /**
-     * Успешное открытие страницы редактирования с загруженными изображениями
-     */
-    public function testSuccessWithImages()
     {
         Storage::fake('public');
 
@@ -84,12 +65,7 @@ class EditTest extends TestCase
         $this->signIn($user);
         $response = $this->get($this->makeUrl($listing->id));
         $response->assertOk();
-
-        $response->assertSee('Edit Listing');
-        $response->assertSee($listing->title);
-        $response->assertSee($listing->description);
-        $response->assertSee($listing->price);
-        $response->assertSee('Update');
+        $response->assertSee('Media');
 
         $media = $listing->getMedia('listings');
 
@@ -100,15 +76,16 @@ class EditTest extends TestCase
         $response->assertSee($media[1]->getUrl());
     }
 
+
     /**
-     * Формирование адреса редактирования
+     * Формирование адреса просмотра списка изображения
      *
-     * @param int $id ID предложения, для которого необходимо сформировать адрес страницы редактирования
+     * @param int $id ID предложения, для которого необходимо сформировать адрес страницы просмотра списка изображения
      *
      * @return string
      */
     public function makeUrl(int $id): string
     {
-        return '/listing/' . $id . '/edit';
+        return '/listings/' . $id . '/media';
     }
 }

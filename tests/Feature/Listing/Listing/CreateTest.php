@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Listing;
+namespace Tests\Feature\Listing\Listing;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -11,7 +11,7 @@ class CreateTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const URL = '/listing/create';
+    private const URL = '/listings/create';
 
     /**
      * Попытка посещения гостем
