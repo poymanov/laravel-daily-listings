@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Requests\Listing;
+namespace App\Http\Requests\Listing\Media;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'       => 'required|string|min:3',
-            'description' => 'required|string|min:3',
-            'price'       => 'required|integer|min:1',
+            'photos' => 'required',
         ];
     }
 }

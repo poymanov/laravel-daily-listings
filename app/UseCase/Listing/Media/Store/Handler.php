@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UseCase\Listing\Delete;
+namespace App\UseCase\Listing\Media\Store;
 
 use App\Models\Listing;
 use App\Models\User;
@@ -30,11 +30,11 @@ class Handler
         }
 
         if ($listing->user_id != $userId) {
-            throw new Exception('User nor authorized for delete listing, ID: ' . $listingId . ', User IDL ' . $userId);
+            throw new Exception('User nor authorized for add media, ID: ' . $listingId . ', User IDL ' . $userId);
         }
 
-        if (!$listing->delete()) {
-            throw new Exception('Failed to delete listing, ID: ' . $listingId);
+        foreach ($command->getPhotos() as $photo) {
+            $listing->addMedia($photo)->toMediaCollection('listings');
         }
     }
 }

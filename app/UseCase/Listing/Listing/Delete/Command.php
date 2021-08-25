@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UseCase\Listing\Delete;
+namespace App\UseCase\Listing\Listing\Delete;
 
 class Command
 {

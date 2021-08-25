@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\UseCase\Listing\Update;
+namespace App\UseCase\Listing\Listing\Create;
+
+use Illuminate\Http\UploadedFile;
 
 class Command
 {
-    /** @var int */
-    private int $id;
-
     /** @var string */
     private string $title;
 
@@ -21,28 +20,23 @@ class Command
     /** @var int */
     private int $userId;
 
+    /** @var UploadedFile|null */
+    private ?UploadedFile $photo;
+
     /**
-     * @param int    $id
-     * @param string $title
-     * @param string $description
-     * @param int    $price
-     * @param int    $userId
+     * @param string            $title
+     * @param string            $description
+     * @param int               $price
+     * @param int               $userId
+     * @param UploadedFile|null $photo
      */
-    public function __construct(int $id, string $title, string $description, int $price, int $userId)
+    public function __construct(string $title, string $description, int $price, int $userId, ?UploadedFile $photo)
     {
-        $this->id          = $id;
         $this->title       = $title;
         $this->description = $description;
         $this->price       = $price;
         $this->userId      = $userId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
+        $this->photo       = $photo;
     }
 
     /**
@@ -75,5 +69,13 @@ class Command
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    /**
+     * @return UploadedFile|null
+     */
+    public function getPhoto(): ?UploadedFile
+    {
+        return $this->photo;
     }
 }

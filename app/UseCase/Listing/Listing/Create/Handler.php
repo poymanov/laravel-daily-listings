@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UseCase\Listing\Create;
+namespace App\UseCase\Listing\Listing\Create;
 
 use App\Models\Listing;
 use App\Models\User;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UseCase\Listing\Update;
+namespace App\UseCase\Listing\Listing\Delete;
 
 use App\Models\Listing;
 use App\Models\User;
@@ -10,11 +10,6 @@ use Exception;
 
 class Handler
 {
-    /**
-     * @param Command $command
-     *
-     * @throws Exception
-     */
     public function handle(Command $command): void
     {
         $userId    = $command->getUserId();
@@ -34,12 +29,12 @@ class Handler
             throw new Exception('Listing not found, ID: ' . $listingId);
         }
 
-        $listing->title       = $command->getTitle();
-        $listing->description = $command->getDescription();
-        $listing->price       = $command->getPrice();
+        if ($listing->user_id != $userId) {
+            throw new Exception('User nor authorized for delete listing, ID: ' . $listingId . ', User IDL ' . $userId);
+        }
 
-        if (!$listing->save()) {
-            throw new Exception('Failed to update listing');
+        if (!$listing->delete()) {
+            throw new Exception('Failed to delete listing, ID: ' . $listingId);
         }
     }
 }

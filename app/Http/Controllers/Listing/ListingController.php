@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Listing;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Requests\Listing\CreateRequest;
-use App\Http\Requests\Requests\Listing\UpdateRequest;
+use App\Http\Requests\Listing\Listing\CreateRequest;
+use App\Http\Requests\Listing\Listing\UpdateRequest;
 use App\Models\Listing;
 use App\Service\ListingService;
-use App\UseCase\Listing\Create;
-use App\UseCase\Listing\Update;
-use App\UseCase\Listing\Delete;
+use App\UseCase\Listing\Listing\Create;
+use App\UseCase\Listing\Listing\Update;
+use App\UseCase\Listing\Listing\Delete;
 use Illuminate\Http\UploadedFile;
 use Throwable;
 
