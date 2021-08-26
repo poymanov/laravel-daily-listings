@@ -31,7 +31,17 @@
 
                     <div class="mb-4 flex flex-wrap">
                         @foreach($listing->getMedia('listings') as $media)
-                            <a href="{{ $media->getUrl() }}" target="_blank" class="block mr-2 mb-2"><img src="{{ $media->getUrl('thumb') }}"></a>
+                            <div class="mr-2 mb-2">
+                                <a href="{{ $media->getUrl() }}" target="_blank" class="block mb-2"><img src="{{ $media->getUrl('thumb') }}"></a>
+
+                                @can('update', $listing)
+                                    <form action="{{ route('listings.media.destroy', [$listing, $media->id]) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button onclick="return confirm('Are you sure?')" class="text-indigo-600 hover:text-indigo-900">Delete</button>
+                                    </form>
+                                @endcan
+                            </div>
                         @endforeach
                     </div>
                 </div>

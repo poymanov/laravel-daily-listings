@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         Route::group(['prefix' => 'listings/{listing}/media', 'as' => 'listings.media.'], function () {
             Route::get('', [MediaController::class, 'show'])->name('show');
             Route::post('', [MediaController::class, 'store'])->name('store');
+            Route::delete('{id}', [MediaController::class, 'destroy'])->name('destroy');
         });
     });
 

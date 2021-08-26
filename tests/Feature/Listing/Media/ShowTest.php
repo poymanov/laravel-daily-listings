@@ -66,6 +66,7 @@ class ShowTest extends TestCase
         $response = $this->get($this->makeUrl($listing->id));
         $response->assertOk();
         $response->assertSee('Media');
+        $response->assertSee('Delete');
 
         $media = $listing->getMedia('listings');
 
