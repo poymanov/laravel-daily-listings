@@ -20,6 +20,9 @@ class Command
     /** @var int */
     private int $userId;
 
+    /** @var int[] */
+    private array $categories;
+
     /** @var UploadedFile|null */
     private ?UploadedFile $photo;
 
@@ -28,14 +31,16 @@ class Command
      * @param string            $description
      * @param int               $price
      * @param int               $userId
+     * @param int[]             $categories
      * @param UploadedFile|null $photo
      */
-    public function __construct(string $title, string $description, int $price, int $userId, ?UploadedFile $photo)
+    public function __construct(string $title, string $description, int $price, int $userId, array $categories, ?UploadedFile $photo)
     {
         $this->title       = $title;
         $this->description = $description;
         $this->price       = $price;
         $this->userId      = $userId;
+        $this->categories  = $categories;
         $this->photo       = $photo;
     }
 
@@ -69,6 +74,14 @@ class Command
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getCategories(): array
+    {
+        return $this->categories;
     }
 
     /**

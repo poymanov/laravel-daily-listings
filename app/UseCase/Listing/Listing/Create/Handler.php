@@ -41,5 +41,7 @@ class Handler
         if ($photo) {
             $listing->addMedia($photo)->toMediaCollection('listings');
         }
+
+        $listing->categories()->attach($command->getCategories());
     }
 }

@@ -32,6 +32,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @mixin \Eloquent
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|Media[] $media
  * @property-read int|null                                                                         $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[]                  $categories
+ * @property-read int|null                                                                         $categories_count
  */
 class Listing extends Model implements HasMedia
 {
@@ -42,5 +44,13 @@ class Listing extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')->width(200)->height(200);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }

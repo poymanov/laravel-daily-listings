@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Listing\Listing\CreateRequest;
 use App\Http\Requests\Listing\Listing\UpdateRequest;
 use App\Models\Listing;
+use App\Service\CategoryService;
 use App\Service\ListingService;
 use App\UseCase\Listing\Listing\Create;
 use App\UseCase\Listing\Listing\Update;
@@ -18,12 +19,17 @@ class ListingController extends Controller
     /** @var ListingService */
     private ListingService $listingService;
 
+    /** @var CategoryService */
+    private CategoryService $categoryService;
+
     /**
-     * @param ListingService $listingService
+     * @param ListingService  $listingService
+     * @param CategoryService $categoryService
      */
-    public function __construct(ListingService $listingService)
+    public function __construct(ListingService $listingService, CategoryService $categoryService)
     {
-        $this->listingService = $listingService;
+        $this->listingService  = $listingService;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -41,7 +47,9 @@ class ListingController extends Controller
      */
     public function create()
     {
-        return view('listings.listings.create');
+        $categories = $this->categoryService->findAll();
+
+        return view('listings.listings.create', compact('categories'));
     }
 
     /**
@@ -61,6 +69,7 @@ class ListingController extends Controller
             $request->get('description'),
             (int) $request->get('price'),
             (int) $userId,
+            $request->get('categories'),
             $photo
         );
 

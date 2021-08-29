@@ -50,4 +50,25 @@ class CreateTest extends TestCase
         $response->assertSee('Create');
         $response->assertSee('Photo');
     }
+
+    /**
+     * Список категорий для предложения успешно отображается
+     */
+    public function testSuccessCategories()
+    {
+        $this->createListing();
+
+        $categoryFirst  = $this->createCategory();
+        $categorySecond = $this->createCategory();
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee($categoryFirst->id);
+        $response->assertSee($categorySecond->id);
+
+        $response->assertSee($categoryFirst->name);
+        $response->assertSee($categorySecond->name);
+    }
 }

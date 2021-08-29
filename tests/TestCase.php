@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Category;
 use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -51,5 +52,17 @@ abstract class TestCase extends BaseTestCase
     protected function createListing(array $params = []): Listing
     {
         return Listing::factory()->create($params);
+    }
+
+    /**
+     * Создание сущности {@see Category}
+     *
+     * @param array $params Параметры нового объекта
+     *
+     * @return Category
+     */
+    protected function createCategory(array $params = []): Category
+    {
+        return Category::factory()->create($params);
     }
 }

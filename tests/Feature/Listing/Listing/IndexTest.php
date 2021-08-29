@@ -73,6 +73,26 @@ class IndexTest extends TestCase
     }
 
     /**
+     * Страница успешно отображается с категориями
+     */
+    public function testSuccessWithCategories()
+    {
+        $listing = $this->createListing();
+
+        $categoryFirst  = $this->createCategory();
+        $categorySecond = $this->createCategory();
+
+        $listing->categories()->attach([$categoryFirst->id, $categorySecond->id]);
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee($categoryFirst->name);
+        $response->assertSee($categorySecond->name);
+    }
+
+    /**
      * Ссылка редактирования не отображается для предложений других пользователей
      */
     public function testAnotherUserEditLink()

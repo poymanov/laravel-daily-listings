@@ -45,7 +45,7 @@ class StoreTest extends TestCase
         $this->signIn();
 
         $response = $this->post(self::URL);
-        $response->assertSessionHasErrors(['title', 'description', 'price']);
+        $response->assertSessionHasErrors(['title', 'description', 'price', 'categories']);
     }
 
     /**
@@ -97,14 +97,15 @@ class StoreTest extends TestCase
      */
     public function testSuccess()
     {
-        $user = $this->createUser();
+        $user     = $this->createUser();
+        $category = $this->createCategory();
 
         $this->signIn($user);
 
         /** @var Listing $listing */
         $listing = Listing::factory()->make();
 
-        $response = $this->post(self::URL, $listing->toArray());
+        $response = $this->post(self::URL, $listing->toArray() + ['categories' => [$category->id]]);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect('/listings');
 
@@ -115,6 +116,12 @@ class StoreTest extends TestCase
             'description' => $listing->description,
             'price'       => $listing->price,
             'user_id'     => $user->id,
+        ]);
+
+        $this->assertDatabaseCount('category_listing', 1);
+
+        $this->assertDatabaseHas('category_listing', [
+            'category_id' => $category->id,
         ]);
     }
 
@@ -125,28 +132,22 @@ class StoreTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = $this->createUser();
+        $category = $this->createCategory();
 
-        $this->signIn($user);
+        $this->signIn($this->createUser());
 
         /** @var Listing $listing */
         $listing = Listing::factory()->make();
 
         $response = $this->post(self::URL, $listing->toArray() + [
-                'photo' => UploadedFile::fake()->image('photo.jpg'),
+                'photo'      => UploadedFile::fake()->image('photo.jpg'),
+                'categories' => [$category->id],
             ]);
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect('/listings');
 
         $response->assertSessionHas('alert.success', 'Listing created');
-
-        $this->assertDatabaseHas('listings', [
-            'title'       => $listing->title,
-            'description' => $listing->description,
-            'price'       => $listing->price,
-            'user_id'     => $user->id,
-        ]);
 
         $this->assertDatabaseCount('media', 1);
         $this->assertCount(2, Storage::disk('public')->allFiles());

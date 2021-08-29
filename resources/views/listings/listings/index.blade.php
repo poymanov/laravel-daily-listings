@@ -31,6 +31,9 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Price
                                         </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Categories
+                                        </th>
                                         <th scope="col" class="relative px-6 py-3"></th>
                                     </tr>
                                     </thead>
@@ -50,6 +53,13 @@
                                             </td>
                                             <td class="px-6 py-4 text-sm text-gray-500">
                                                 {{ $listing->price }}
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-gray-500">
+                                                <ul class="list-disc">
+                                                    @foreach($listing->categories as $category)
+                                                        <li>{{ $category->name }}</li>
+                                                    @endforeach
+                                                </ul>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center">
                                                 @can('update', $listing)
