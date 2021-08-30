@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Listing\Media;
+namespace Tests\Feature\Listing\Category;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -36,7 +36,7 @@ class EditTest extends TestCase
     }
 
     /**
-     * Попытка открытия страницы просмотра изображения предложения другого пользователя
+     * Попытка открытия страницы предложения другого пользователя
      */
     public function testAnotherUser()
     {
@@ -49,29 +49,32 @@ class EditTest extends TestCase
     }
 
     /**
-     * Успешное открытие страницы просмотра изображений с формой загрузки новых изображений
+     * Успешное открытие страницы
      */
     public function testSuccess()
     {
-        $user    = $this->createUser();
-        $listing = $this->createListing(['user_id' => $user->id]);
+        $user           = $this->createUser();
+        $listing        = $this->createListing(['user_id' => $user->id]);
+        $categoryFirst  = $this->createCategory();
+        $categorySecond = $this->createCategory();
 
         $this->signIn($user);
         $response = $this->get($this->makeUrl($listing->id));
         $response->assertOk();
-        $response->assertSee('New photos');
-        $response->assertSee('Add');
+        $response->assertSee($categoryFirst->name);
+        $response->assertSee($categorySecond->name);
+        $response->assertSee('Update');
     }
 
     /**
-     * Формирование адреса просмотра списка изображений
+     * Формирование адреса просмотра списка категорий
      *
-     * @param int $id ID предложения, для которого необходимо сформировать адрес страницы просмотра списка изображений
+     * @param int $id ID предложения, для которого необходимо сформировать адрес страницы просмотра списка категорий
      *
      * @return string
      */
     public function makeUrl(int $id): string
     {
-        return '/listings/' . $id . '/media';
+        return '/listings/' . $id . '/categories';
     }
 }
