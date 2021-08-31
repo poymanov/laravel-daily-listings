@@ -45,7 +45,7 @@ class StoreTest extends TestCase
         $this->signIn();
 
         $response = $this->post(self::URL);
-        $response->assertSessionHasErrors(['title', 'description', 'price', 'categories']);
+        $response->assertSessionHasErrors(['title', 'description', 'price', 'categories', 'colors']);
     }
 
     /**
@@ -99,13 +99,21 @@ class StoreTest extends TestCase
     {
         $user     = $this->createUser();
         $category = $this->createCategory();
+        $color    = $this->createColor();
 
         $this->signIn($user);
 
         /** @var Listing $listing */
         $listing = Listing::factory()->make();
 
-        $response = $this->post(self::URL, $listing->toArray() + ['categories' => [$category->id]]);
+        $response = $this->post(
+            self::URL,
+            $listing->toArray() + [
+                'categories' => [$category->id],
+                'colors'     => [$color->id],
+            ]
+        );
+
         $response->assertSessionHasNoErrors();
         $response->assertRedirect('/listings');
 
@@ -123,6 +131,12 @@ class StoreTest extends TestCase
         $this->assertDatabaseHas('category_listing', [
             'category_id' => $category->id,
         ]);
+
+        $this->assertDatabaseCount('color_listing', 1);
+
+        $this->assertDatabaseHas('color_listing', [
+            'color_id' => $color->id,
+        ]);
     }
 
     /**
@@ -133,16 +147,21 @@ class StoreTest extends TestCase
         Storage::fake('public');
 
         $category = $this->createCategory();
+        $color    = $this->createColor();
 
         $this->signIn($this->createUser());
 
         /** @var Listing $listing */
         $listing = Listing::factory()->make();
 
-        $response = $this->post(self::URL, $listing->toArray() + [
+        $response = $this->post(
+            self::URL,
+            $listing->toArray() + [
                 'photo'      => UploadedFile::fake()->image('photo.jpg'),
                 'categories' => [$category->id],
-            ]);
+                'colors'     => [$color->id],
+            ]
+        );
 
         $response->assertSessionHasNoErrors();
         $response->assertRedirect('/listings');

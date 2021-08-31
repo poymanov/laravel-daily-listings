@@ -43,5 +43,7 @@ class Handler
         }
 
         $listing->categories()->attach($command->getCategories());
+
+        $listing->colors()->attach($command->getColors());
     }
 }

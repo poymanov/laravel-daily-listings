@@ -23,6 +23,9 @@ class Command
     /** @var int[] */
     private array $categories;
 
+    /** @var int[] */
+    private array $colors;
+
     /** @var UploadedFile|null */
     private ?UploadedFile $photo;
 
@@ -32,15 +35,17 @@ class Command
      * @param int               $price
      * @param int               $userId
      * @param int[]             $categories
+     * @param int[]             $colors
      * @param UploadedFile|null $photo
      */
-    public function __construct(string $title, string $description, int $price, int $userId, array $categories, ?UploadedFile $photo)
+    public function __construct(string $title, string $description, int $price, int $userId, array $categories, array $colors, ?UploadedFile $photo)
     {
         $this->title       = $title;
         $this->description = $description;
         $this->price       = $price;
         $this->userId      = $userId;
         $this->categories  = $categories;
+        $this->colors      = $colors;
         $this->photo       = $photo;
     }
 
@@ -82,6 +87,14 @@ class Command
     public function getCategories(): array
     {
         return $this->categories;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getColors(): array
+    {
+        return $this->colors;
     }
 
     /**

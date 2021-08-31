@@ -71,4 +71,25 @@ class CreateTest extends TestCase
         $response->assertSee($categoryFirst->name);
         $response->assertSee($categorySecond->name);
     }
+
+    /**
+     * Список цветов для предложения успешно отображается
+     */
+    public function testSuccessColors()
+    {
+        $this->createListing();
+
+        $colorFirst  = $this->createColor();
+        $colorSecond = $this->createColor();
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee($colorFirst->id);
+        $response->assertSee($colorSecond->id);
+
+        $response->assertSee($colorFirst->name);
+        $response->assertSee($colorSecond->name);
+    }
 }

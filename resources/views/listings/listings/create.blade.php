@@ -36,11 +36,21 @@
                         </div>
 
                         <div class="mb-4">
-                            <div class="block font-medium text-sm text-gray-700 mb-2">{{ __('Categories')  }}</div>
+                            <div class="block font-medium text-sm text-gray-700 mb-2">{{ __('Categories') }}</div>
                             @foreach($categories as $category)
                                 <div class="text-sm flex items-start mb-2">
                                     <x-jet-input id="category-{{ $category->id }}" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" type="checkbox" name="categories[]" value="{{ $category->id }}"/>
                                     <x-jet-label for="category-{{ $category->id }}" value="{{ $category->name }}"/>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="block font-medium text-sm text-gray-700 mb-2">{{ __('Colors')  }}</div>
+                            @foreach($colors as $color)
+                                <div class="text-sm flex items-start mb-2">
+                                    <x-jet-input id="color-{{ $color->id }}" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" type="checkbox" name="colors[]" value="{{ $color->id }}"/>
+                                    <x-jet-label for="color-{{ $color->id }}" value="{{ $color->name }}"/>
                                 </div>
                             @endforeach
                         </div>

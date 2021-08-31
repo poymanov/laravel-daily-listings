@@ -53,4 +53,12 @@ class Listing extends Model implements HasMedia
     {
         return $this->belongsToMany(Category::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class);
+    }
 }

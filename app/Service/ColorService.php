@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Models\Listing;
+use App\Models\Color;
 use Illuminate\Database\Eloquent\Collection;
 
-class ListingService
+class ColorService
 {
     /**
-     * Получение списка всех предложений
+     * Получение списка всех цветов
      *
      * @return Collection
      */
     public function findAll(): Collection
     {
-        return Listing::with(['categories', 'colors'])->get();
+        return Color::all();
     }
 }

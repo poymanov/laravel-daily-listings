@@ -93,6 +93,26 @@ class IndexTest extends TestCase
     }
 
     /**
+     * Страница успешно отображается с цветами
+     */
+    public function testSuccessWithColors()
+    {
+        $listing = $this->createListing();
+
+        $colorFirst  = $this->createColor();
+        $colorSecond = $this->createColor();
+
+        $listing->colors()->attach([$colorFirst->id, $colorSecond->id]);
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee($colorFirst->name);
+        $response->assertSee($colorSecond->name);
+    }
+
+    /**
      * Ссылка редактирования не отображается для предложений других пользователей
      */
     public function testAnotherUserEditLink()
