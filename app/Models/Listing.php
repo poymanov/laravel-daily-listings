@@ -34,6 +34,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read int|null                                                                         $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[]                  $categories
  * @property-read int|null                                                                         $categories_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Color[] $colors
+ * @property-read int|null $colors_count
  */
 class Listing extends Model implements HasMedia
 {

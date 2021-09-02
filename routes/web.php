@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Listing\CategoryController;
+use App\Http\Controllers\Listing\ColorController;
 use App\Http\Controllers\Listing\ListingController;
 use App\Http\Controllers\Listing\MediaController;
 use App\Http\Controllers\RegistrationStepTwoController;
@@ -33,6 +34,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         Route::group(['prefix' => 'listings/{listing}/categories', 'as' => 'listings.categories.'], function () {
             Route::get('', [CategoryController::class, 'edit'])->name('edit');
             Route::post('', [CategoryController::class, 'update'])->name('update');
+        });
+
+        Route::group(['prefix' => 'listings/{listing}/colors', 'as' => 'listings.colors.'], function () {
+            Route::get('', [ColorController::class, 'edit'])->name('edit');
+            Route::post('', [ColorController::class, 'update'])->name('update');
         });
     });
 
