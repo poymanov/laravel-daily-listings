@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Listing;
+use App\Models\Size;
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -77,5 +78,17 @@ abstract class TestCase extends BaseTestCase
     protected function createColor(array $params = []): Color
     {
         return Color::factory()->create($params);
+    }
+
+    /**
+     * Создание сущности {@see Size}
+     *
+     * @param array $params Параметры нового объекта
+     *
+     * @return Size
+     */
+    protected function createSize(array $params = []): Size
+    {
+        return Size::factory()->create($params);
     }
 }

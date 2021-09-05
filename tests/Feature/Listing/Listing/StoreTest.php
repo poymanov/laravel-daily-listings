@@ -45,7 +45,7 @@ class StoreTest extends TestCase
         $this->signIn();
 
         $response = $this->post(self::URL);
-        $response->assertSessionHasErrors(['title', 'description', 'price', 'categories', 'colors']);
+        $response->assertSessionHasErrors(['title', 'description', 'price', 'categories', 'colors', 'sizes']);
     }
 
     /**
@@ -100,6 +100,7 @@ class StoreTest extends TestCase
         $user     = $this->createUser();
         $category = $this->createCategory();
         $color    = $this->createColor();
+        $size     = $this->createSize();
 
         $this->signIn($user);
 
@@ -111,6 +112,7 @@ class StoreTest extends TestCase
             $listing->toArray() + [
                 'categories' => [$category->id],
                 'colors'     => [$color->id],
+                'sizes'      => [$size->id],
             ]
         );
 
@@ -137,6 +139,12 @@ class StoreTest extends TestCase
         $this->assertDatabaseHas('color_listing', [
             'color_id' => $color->id,
         ]);
+
+        $this->assertDatabaseCount('listing_size', 1);
+
+        $this->assertDatabaseHas('listing_size', [
+            'size_id' => $color->id,
+        ]);
     }
 
     /**
@@ -148,6 +156,7 @@ class StoreTest extends TestCase
 
         $category = $this->createCategory();
         $color    = $this->createColor();
+        $size     = $this->createSize();
 
         $this->signIn($this->createUser());
 
@@ -160,6 +169,7 @@ class StoreTest extends TestCase
                 'photo'      => UploadedFile::fake()->image('photo.jpg'),
                 'categories' => [$category->id],
                 'colors'     => [$color->id],
+                'sizes'      => [$size->id],
             ]
         );
 

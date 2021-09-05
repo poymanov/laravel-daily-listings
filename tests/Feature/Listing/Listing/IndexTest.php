@@ -113,6 +113,26 @@ class IndexTest extends TestCase
     }
 
     /**
+     * Страница успешно отображается с размерами
+     */
+    public function testSuccessWithSizes()
+    {
+        $listing = $this->createListing();
+
+        $sizeFirst  = $this->createSize();
+        $sizeSecond = $this->createSize();
+
+        $listing->sizes()->attach([$sizeFirst->id, $sizeSecond->id]);
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee($sizeFirst->name);
+        $response->assertSee($sizeSecond->name);
+    }
+
+    /**
      * Ссылка редактирования не отображается для предложений других пользователей
      */
     public function testAnotherUserEditLink()

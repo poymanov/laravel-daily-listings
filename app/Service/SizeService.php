@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Models\Listing;
+use App\Models\Size;
 use Illuminate\Database\Eloquent\Collection;
 
-class ListingService
+class SizeService
 {
     /**
-     * Получение списка всех предложений
+     * Получение списка всех размеров
      *
      * @return Collection
      */
     public function findAll(): Collection
     {
-        return Listing::with(['categories', 'colors', 'sizes'])->get();
+        return Size::all();
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Listing;
 use App\Service\CategoryService;
 use App\Service\ColorService;
 use App\Service\ListingService;
+use App\Service\SizeService;
 use App\UseCase\Listing\Listing\Create;
 use App\UseCase\Listing\Listing\Update;
 use App\UseCase\Listing\Listing\Delete;
@@ -26,16 +27,25 @@ class ListingController extends Controller
     /** @var ColorService */
     private ColorService $colorService;
 
+    /** @var SizeService */
+    private SizeService $sizeService;
+
     /**
      * @param ListingService  $listingService
      * @param CategoryService $categoryService
      * @param ColorService    $colorService
+     * @param SizeService     $sizeService
      */
-    public function __construct(ListingService $listingService, CategoryService $categoryService, ColorService $colorService)
-    {
+    public function __construct(
+        ListingService $listingService,
+        CategoryService $categoryService,
+        ColorService $colorService,
+        SizeService $sizeService
+    ) {
         $this->listingService  = $listingService;
         $this->categoryService = $categoryService;
         $this->colorService    = $colorService;
+        $this->sizeService     = $sizeService;
     }
 
     /**
@@ -55,8 +65,9 @@ class ListingController extends Controller
     {
         $categories = $this->categoryService->findAll();
         $colors     = $this->colorService->findAll();
+        $sizes      = $this->sizeService->findAll();
 
-        return view('listings.listings.create', compact('categories', 'colors'));
+        return view('listings.listings.create', compact('categories', 'colors', 'sizes'));
     }
 
     /**
@@ -78,6 +89,7 @@ class ListingController extends Controller
             (int) $userId,
             $request->get('categories'),
             $request->get('colors'),
+            $request->get('sizes'),
             $photo
         );
 

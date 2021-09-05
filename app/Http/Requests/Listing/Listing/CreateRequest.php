@@ -31,6 +31,7 @@ class CreateRequest extends FormRequest
             'price'       => 'required|integer|min:1',
             'categories'  => 'required|array',
             'colors'      => 'required|array',
+            'sizes'       => 'required|array',
         ];
     }
 }

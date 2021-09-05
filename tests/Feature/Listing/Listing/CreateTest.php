@@ -92,4 +92,25 @@ class CreateTest extends TestCase
         $response->assertSee($colorFirst->name);
         $response->assertSee($colorSecond->name);
     }
+
+    /**
+     * Список размеров для предложения успешно отображается
+     */
+    public function testSuccessSizes()
+    {
+        $this->createListing();
+
+        $sizeFirst  = $this->createSize();
+        $sizeSecond = $this->createSize();
+
+        $this->signIn($this->createUser());
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee($sizeFirst->id);
+        $response->assertSee($sizeSecond->id);
+
+        $response->assertSee($sizeFirst->name);
+        $response->assertSee($sizeSecond->name);
+    }
 }

@@ -34,8 +34,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read int|null                                                                         $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[]                  $categories
  * @property-read int|null                                                                         $categories_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Color[] $colors
- * @property-read int|null $colors_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Color[]                     $colors
+ * @property-read int|null                                                                         $colors_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Size[]                      $sizes
+ * @property-read int|null                                                                         $sizes_count
  */
 class Listing extends Model implements HasMedia
 {
@@ -62,5 +64,13 @@ class Listing extends Model implements HasMedia
     public function colors()
     {
         return $this->belongsToMany(Color::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class);
     }
 }

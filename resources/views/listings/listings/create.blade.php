@@ -55,6 +55,16 @@
                             @endforeach
                         </div>
 
+                        <div class="mb-4">
+                            <div class="block font-medium text-sm text-gray-700 mb-2">{{ __('Sizes')  }}</div>
+                            @foreach($sizes as $size)
+                                <div class="text-sm flex items-start mb-2">
+                                    <x-jet-input id="size-{{ $size->id }}" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" type="checkbox" name="sizes[]" value="{{ $size->id }}"/>
+                                    <x-jet-label for="size-{{ $size->id }}" value="{{ $size->name }}"/>
+                                </div>
+                            @endforeach
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <x-jet-button class="ml-4">
                                 {{ __('Create') }}
