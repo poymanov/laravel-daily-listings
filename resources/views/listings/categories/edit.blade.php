@@ -13,7 +13,7 @@
 
                     <x-jet-validation-errors class="mb-4"/>
 
-                    <form method="POST" action="{{ route('listings.categories.update', $listing) }}" enctype="multipart/form-data" class="mb-4">
+                    <form method="POST" action="{{ route('listings.categories.update', $listing) }}" class="mb-4">
                         @csrf
 
                         <div class="mb-4">

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Colors') }}
+            {{ __('Sizes') }}
         </h2>
     </x-slot>
 
@@ -13,14 +13,14 @@
 
                     <x-jet-validation-errors class="mb-4"/>
 
-                    <form method="POST" action="{{ route('listings.colors.update', $listing) }}" class="mb-4">
+                    <form method="POST" action="{{ route('listings.sizes.update', $listing) }}" class="mb-4">
                         @csrf
 
                         <div class="mb-4">
-                            @foreach($colors as $color)
+                            @foreach($sizes as $size)
                                 <div class="text-sm flex items-start mb-2">
-                                    <input id="color-{{ $color->id }}" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" @if (in_array($color->id, $listingColorsIds)) checked @endif type="checkbox" name="colors[]" value="{{ $color->id }}"/>
-                                    <x-jet-label for="color-{{ $color->id }}" value="{{ $color->name }}"/>
+                                    <input id="size-{{ $size->id }}" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" @if (in_array($size->id, $listingSizesIds)) checked @endif type="checkbox" name="sizes[]" value="{{ $size->id }}"/>
+                                    <x-jet-label for="size-{{ $size->id }}" value="{{ $size->name }}"/>
                                 </div>
                             @endforeach
                         </div>
