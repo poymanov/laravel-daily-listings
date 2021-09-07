@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Color;
 use App\Models\Listing;
 use App\Models\Size;
@@ -90,5 +91,17 @@ abstract class TestCase extends BaseTestCase
     protected function createSize(array $params = []): Size
     {
         return Size::factory()->create($params);
+    }
+
+    /**
+     * Создание сущности {@see City}
+     *
+     * @param array $params Параметры нового объекта
+     *
+     * @return Listing
+     */
+    protected function createCity(array $params = []): Listing
+    {
+        return City::factory()->create($params);
     }
 }

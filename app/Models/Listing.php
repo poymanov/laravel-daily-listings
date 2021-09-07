@@ -38,6 +38,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read int|null                                                                         $colors_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Size[]                      $sizes
  * @property-read int|null                                                                         $sizes_count
+ * @property-read \App\Models\User                                                                 $user
  */
 class Listing extends Model implements HasMedia
 {
@@ -48,6 +49,14 @@ class Listing extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')->width(200)->height(200);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

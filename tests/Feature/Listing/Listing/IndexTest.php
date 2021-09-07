@@ -133,6 +133,25 @@ class IndexTest extends TestCase
     }
 
     /**
+     * Страница успешно отображается с городами пользователей, создавших предложения
+     */
+    public function testSuccessWithCities()
+    {
+        $userFirst = $this->createUser();
+        $this->createListing(['user_id' => $userFirst->id]);
+
+        $userSecond = $this->createUser();
+        $this->createListing(['user_id' => $userSecond->id]);
+
+        $this->signIn();
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee($userFirst->city->name);
+        $response->assertSee($userSecond->city->name);
+    }
+
+    /**
      * Ссылка редактирования не отображается для предложений других пользователей
      */
     public function testAnotherUserEditLink()

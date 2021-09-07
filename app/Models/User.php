@@ -53,6 +53,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @property-read \App\Models\City|null                                                                                     $city
  */
 class User extends Authenticatable
 {
@@ -111,5 +112,13 @@ class User extends Authenticatable
     public function isRegistrationComplete(): bool
     {
         return $this->city_id && $this->address && $this->phone;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }
