@@ -53,7 +53,13 @@ class ListingController extends Controller
      */
     public function index()
     {
-        $listings = $this->listingService->findAll();
+        $listings = $this->listingService->filtered(
+            request('title'),
+            request('category'),
+            request('color'),
+            request('size'),
+            request('city')
+        );
 
         return view('listings.listings.index', compact('listings'));
     }

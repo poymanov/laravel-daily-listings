@@ -98,9 +98,9 @@ abstract class TestCase extends BaseTestCase
      *
      * @param array $params Параметры нового объекта
      *
-     * @return Listing
+     * @return City
      */
-    protected function createCity(array $params = []): Listing
+    protected function createCity(array $params = []): City
     {
         return City::factory()->create($params);
     }
