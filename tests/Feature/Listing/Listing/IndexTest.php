@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Listing\Listing;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -12,6 +13,7 @@ use Tests\TestCase;
 class IndexTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     private const URL = '/listings';
 
@@ -149,6 +151,24 @@ class IndexTest extends TestCase
 
         $response->assertSee($userFirst->city->name);
         $response->assertSee($userSecond->city->name);
+    }
+
+    /**
+     * Успешное отображение с пагинацией
+     */
+    public function testSuccessWithPagination()
+    {
+        $listingFirst  = $this->createListing();
+        $listingSecond = $this->createListing();
+        $listingThird  = $this->createListing();
+
+        $this->signIn();
+        $response = $this->get(self::URL);
+        $response->assertOk();
+
+        $response->assertSee($listingFirst->title);
+        $response->assertSee($listingSecond->title);
+        $response->assertDontSee($listingThird->title);
     }
 
     /**

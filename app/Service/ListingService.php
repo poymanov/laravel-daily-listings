@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Models\Listing;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ListingService
 {
@@ -28,9 +29,9 @@ class ListingService
      * @param int|null    $sizeId
      * @param int|null    $cityId
      *
-     * @return Collection
+     * @return LengthAwarePaginator
      */
-    public function filtered(?string $title, ?int $categoryId, ?int $colorId, ?int $sizeId, ?int $cityId): Collection
+    public function filtered(?string $title, ?int $categoryId, ?int $colorId, ?int $sizeId, ?int $cityId): LengthAwarePaginator
     {
         return Listing::with(['categories', 'colors', 'sizes', 'user.city'])
             ->when($title, function ($query) use ($title) {
@@ -56,6 +57,6 @@ class ListingService
                     $queryRelation->where('id', $cityId);
                 });
             })
-            ->get();
+            ->paginate(config('pagination.listings'))->withQueryString();
     }
 }

@@ -23,7 +23,7 @@ class ListingFactory extends Factory
     public function definition()
     {
         return [
-            'title'       => $this->faker->text(10),
+            'title'       => $this->faker->word() . '_' . $this->faker->randomNumber(),
             'description' => $this->faker->text(),
             'price'       => rand(10, 999),
             'user_id'     => User::factory(),
