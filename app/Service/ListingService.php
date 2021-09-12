@@ -11,6 +11,18 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ListingService
 {
     /**
+     * Получение предложения по ID
+     *
+     * @param int $id ID предложения, которое необходимо получить
+     *
+     * @return Listing|null
+     */
+    public function findById(int $id): ?Listing
+    {
+        return Listing::whereId($id)->first();
+    }
+
+    /**
      * Получение списка всех предложений
      *
      * @return Collection

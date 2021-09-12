@@ -54,6 +54,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
  * @property-read \App\Models\City|null                                                                                     $city
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Listing[] $savedListings
+ * @property-read int|null $saved_listings_count
  */
 class User extends Authenticatable
 {
@@ -120,5 +122,13 @@ class User extends Authenticatable
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function savedListings()
+    {
+        return $this->belongsToMany(Listing::class);
     }
 }

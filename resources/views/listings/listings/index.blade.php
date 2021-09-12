@@ -103,6 +103,10 @@
                                                         <button onclick="return confirm('Are you sure?')" class="text-indigo-600 hover:text-indigo-900">Delete</button>
                                                     </form>
                                                 @endcan
+
+                                                @if($listing->user_id != auth()->id())
+                                                    @livewire('listing.save-button', ['listingId' => $listing->id])
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
