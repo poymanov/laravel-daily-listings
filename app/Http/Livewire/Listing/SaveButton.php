@@ -19,7 +19,7 @@ class SaveButton extends Component
      */
     public function render()
     {
-        return view('livewire.listing.save-button');
+        return view('livewire.listing.save-button', ['isListingSaved' => $this->isListingSaved()]);
     }
 
     /**
@@ -33,7 +33,7 @@ class SaveButton extends Component
         $listing = $listingService->findById($this->listingId);
 
         if (is_null($listing)) {
-            session()->flash('error', 'Listing not found');
+            session()->flash('alert.error', 'Listing not found');
 
             return redirect()->to('/listings');
         }
@@ -41,18 +41,33 @@ class SaveButton extends Component
         $currentUser = $this->getCurrentUser();
 
         if ($listing->user_id == $currentUser->id) {
-            session()->flash('error', 'Failed to save yourself listing');
+            session()->flash('alert.error', 'Failed to save yourself listing');
 
             return redirect()->to('/listings');
         }
 
         if ($this->isListingSaved()) {
-            session()->flash('error', 'Failed to save already saved listing');
+            session()->flash('alert.error', 'Failed to save already saved listing');
 
             return redirect()->to('/listings');
         }
 
         $currentUser->savedListings()->attach($this->listingId);
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse|void
+     */
+    public function unSave()
+    {
+        if (!$this->isListingSaved()) {
+            session()->flash('alert.error', 'Listing not saved');
+
+            return redirect()->to('/listings');
+        }
+
+        $currentUser = $this->getCurrentUser();
+        $currentUser->savedListings()->detach($this->listingId);
     }
 
     /**
@@ -77,6 +92,6 @@ class SaveButton extends Component
     {
         $currentUser = $this->getCurrentUser();
 
-        return $currentUser->savedListings->contains($this->listingId);
+        return $currentUser->savedListings()->where('id', $this->listingId)->exists();
     }
 }

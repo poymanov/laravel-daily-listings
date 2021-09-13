@@ -59,7 +59,7 @@ class SaveTest extends TestCase
             ->set('listingId', $notExistedId)
             ->call('save')
             ->assertRedirect('/listings')
-            ->assertSessionHas('error', 'Listing not found');
+            ->assertSessionHas('alert.error', 'Listing not found');
 
         $this->assertDatabaseMissing('listing_user', [
             'listing_id' => $notExistedId,
@@ -82,7 +82,7 @@ class SaveTest extends TestCase
             ->set('listingId', $listing->id)
             ->call('save')
             ->assertRedirect('/listings')
-            ->assertSessionHas('error', 'Failed to save yourself listing');
+            ->assertSessionHas('alert.error', 'Failed to save yourself listing');
 
         $this->assertDatabaseMissing('listing_user', [
             'listing_id' => $listing->id,
@@ -106,7 +106,7 @@ class SaveTest extends TestCase
             ->set('listingId', $listing->id)
             ->call('save')
             ->assertRedirect('/listings')
-            ->assertSessionHas('error', 'Failed to save already saved listing');
+            ->assertSessionHas('alert.error', 'Failed to save already saved listing');
     }
 
     /**
