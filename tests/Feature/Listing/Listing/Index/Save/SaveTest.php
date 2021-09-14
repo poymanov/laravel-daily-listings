@@ -27,7 +27,7 @@ class SaveTest extends TestCase
         $response = $this->get(self::URL);
         $response->assertOk();
 
-        $response->assertDontSee('Save');
+        $response->assertDontSee('Add to saved');
     }
 
     /**
@@ -41,7 +41,7 @@ class SaveTest extends TestCase
         $response = $this->get(self::URL);
         $response->assertOk();
 
-        $response->assertSee('Save');
+        $response->assertSee('Add to saved');
     }
 
     /**

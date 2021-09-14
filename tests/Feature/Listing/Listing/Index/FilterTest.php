@@ -127,4 +127,32 @@ class FilterTest extends TestCase
         $response->assertSee($listingFirst->title);
         $response->assertDontSee($listingSecond->title);
     }
+
+    /**
+     * Отображение нулевого количества сохраненных предложений пользователя
+     */
+    public function testNotSavedListings()
+    {
+        $this->signIn();
+        $response = $this->get(self::URL);
+        $response->assertOk();
+        $response->assertSee('Saved (0)');
+    }
+
+    /**
+     * Отображение количества сохраненных предложений пользователя
+     */
+    public function testSavedListings()
+    {
+        $user = $this->createUser();
+
+        $listing = $this->createListing(['user_id' => $user->id]);
+        $user->savedListings()->attach($listing);
+
+        $this->signIn($user);
+
+        $response = $this->get(self::URL);
+        $response->assertOk();
+        $response->assertSee('Saved (1)');
+    }
 }

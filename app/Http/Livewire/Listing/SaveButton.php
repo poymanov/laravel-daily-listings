@@ -53,6 +53,8 @@ class SaveButton extends Component
         }
 
         $currentUser->savedListings()->attach($this->listingId);
+
+        $this->emit('savedListingsUpdate');
     }
 
     /**
@@ -68,6 +70,8 @@ class SaveButton extends Component
 
         $currentUser = $this->getCurrentUser();
         $currentUser->savedListings()->detach($this->listingId);
+
+        $this->emit('savedListingsUpdate');
     }
 
     /**

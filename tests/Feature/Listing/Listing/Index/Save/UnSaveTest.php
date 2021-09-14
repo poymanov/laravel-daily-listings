@@ -27,7 +27,7 @@ class UnSaveTest extends TestCase
         $response = $this->get(self::URL);
         $response->assertOk();
 
-        $response->assertDontSee('Unsave');
+        $response->assertDontSee('Remove from saved');
     }
 
     /**
@@ -44,7 +44,7 @@ class UnSaveTest extends TestCase
         $response = $this->get(self::URL);
         $response->assertOk();
 
-        $response->assertSee('UnSave');
+        $response->assertSee('Remove from saved');
     }
 
     /**
