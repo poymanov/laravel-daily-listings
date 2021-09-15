@@ -9,6 +9,9 @@ use Livewire\Component;
 
 class Saved extends Component
 {
+    /** @var bool */
+    public $isFilterBySaved;
+
     /** @var string[] */
     protected $listeners = [
         'savedListingsUpdate' => 'render',
@@ -19,7 +22,10 @@ class Saved extends Component
      */
     public function render()
     {
-        return view('livewire.listing.saved', ['savedCount' => $this->getSavedListingsCount()]);
+        return view('livewire.listing.saved', [
+            'savedCount'      => $this->getSavedListingsCount(),
+            'isFilterBySaved' => $this->isFilterBySaved,
+        ]);
     }
 
     /**

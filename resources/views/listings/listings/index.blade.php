@@ -118,11 +118,13 @@
                 </div>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-4">
-                    {{ $listings->links() }}
+            @if($listings->lastPage() > 1)
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <div class="p-4">
+                        {{ $listings->links() }}
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </x-app-layout>

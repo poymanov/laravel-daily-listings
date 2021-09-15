@@ -35,15 +35,16 @@ class ListingService
     /**
      * Получение отфильтрованного списка всех предложений
      *
-     * @param string|null $title
-     * @param int|null    $categoryId
-     * @param int|null    $colorId
-     * @param int|null    $sizeId
-     * @param int|null    $cityId
+     * @param string|null $title         Заголовок для фильтрации
+     * @param int|null    $categoryId    ID категории для фильтрации
+     * @param int|null    $colorId       ID цвета для фильтрации
+     * @param int|null    $sizeId        ID размера для фильтрации
+     * @param int|null    $cityId        ID города для фильтрации
+     * @param int|null    $savedByUserId ID пользователя, который сохранил предложения, для фильтрации
      *
      * @return LengthAwarePaginator
      */
-    public function filtered(?string $title, ?int $categoryId, ?int $colorId, ?int $sizeId, ?int $cityId): LengthAwarePaginator
+    public function filtered(?string $title, ?int $categoryId, ?int $colorId, ?int $sizeId, ?int $cityId, ?int $savedByUserId): LengthAwarePaginator
     {
         return Listing::with(['categories', 'colors', 'sizes', 'user.city'])
             ->when($title, function ($query) use ($title) {
@@ -67,6 +68,11 @@ class ListingService
             ->when($cityId, function ($query) use ($cityId) {
                 $query->whereHas('user.city', function ($queryRelation) use ($cityId) {
                     $queryRelation->where('id', $cityId);
+                });
+            })
+            ->when($savedByUserId, function ($query) use ($savedByUserId) {
+                $query->whereHas('savedUsers', function ($queryRelation) use ($savedByUserId) {
+                    $queryRelation->where('id', $savedByUserId);
                 });
             })
             ->paginate(config('pagination.listings'))->withQueryString();

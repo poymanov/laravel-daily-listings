@@ -58,7 +58,8 @@ class ListingController extends Controller
             request('category'),
             request('color'),
             request('size'),
-            request('city')
+            request('city'),
+            request('saved') ? (int) auth()->id() : null
         );
 
         return view('listings.listings.index', compact('listings'));

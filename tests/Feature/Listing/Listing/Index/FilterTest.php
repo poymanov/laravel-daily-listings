@@ -129,6 +129,27 @@ class FilterTest extends TestCase
     }
 
     /**
+     * Фильтрация предложений по сохраненным текущим пользователем
+     */
+    public function testBySaved()
+    {
+        $user = $this->createUser();
+
+        $listingFirst  = $this->createListing();
+        $listingSecond = $this->createListing();
+
+        $user->savedListings()->attach($listingFirst);
+
+        $this->signIn($user);
+
+        $response = $this->get(self::URL . '?saved=on');
+        $response->assertOk();
+
+        $response->assertSee($listingFirst->title);
+        $response->assertDontSee($listingSecond->title);
+    }
+
+    /**
      * Отображение нулевого количества сохраненных предложений пользователя
      */
     public function testNotSavedListings()

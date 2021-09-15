@@ -45,6 +45,7 @@ class ListingFilter extends Component
         $currentColorId    = request('color');
         $currentSizeId     = request('size');
         $currentCityId     = request('city');
+        $currentSaved      = request('saved');
 
         return view(
             'components.listing-filter',
@@ -57,7 +58,8 @@ class ListingFilter extends Component
                 'currentCategoryId',
                 'currentColorId',
                 'currentSizeId',
-                'currentCityId'
+                'currentCityId',
+                'currentSaved'
             )
         );
     }

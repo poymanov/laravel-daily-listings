@@ -39,6 +39,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Size[]                      $sizes
  * @property-read int|null                                                                         $sizes_count
  * @property-read \App\Models\User                                                                 $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $savedUsers
+ * @property-read int|null $saved_users_count
  */
 class Listing extends Model implements HasMedia
 {
@@ -81,5 +83,13 @@ class Listing extends Model implements HasMedia
     public function sizes()
     {
         return $this->belongsToMany(Size::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function savedUsers()
+    {
+        return $this->belongsToMany(User::class);
     }
 }
