@@ -37,8 +37,6 @@ class CreateTest extends TestCase
      */
     public function testSuccess()
     {
-        $this->createListing();
-
         $this->signIn($this->createUser());
         $response = $this->get(self::URL);
         $response->assertOk();

@@ -31,4 +31,26 @@ class ListingPolicy
     {
         return $user->id == $listing->user_id;
     }
+
+    /**
+     * @param User    $user
+     * @param Listing $listing
+     *
+     * @return bool
+     */
+    public function sendMessage(User $user, Listing $listing)
+    {
+        return $user->id != $listing->user_id;
+    }
+
+    /**
+     * @param User    $user
+     * @param Listing $listing
+     *
+     * @return bool
+     */
+    public function saveListing(User $user, Listing $listing)
+    {
+        return $user->id != $listing->user_id;
+    }
 }

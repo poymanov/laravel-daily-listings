@@ -4,6 +4,7 @@ use App\Http\Controllers\Listing\CategoryController;
 use App\Http\Controllers\Listing\ColorController;
 use App\Http\Controllers\Listing\ListingController;
 use App\Http\Controllers\Listing\MediaController;
+use App\Http\Controllers\Listing\MessageController;
 use App\Http\Controllers\Listing\SizeController;
 use App\Http\Controllers\RegistrationStepTwoController;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         Route::group(['prefix' => 'listings/{listing}/sizes', 'as' => 'listings.sizes.'], function () {
             Route::get('', [SizeController::class, 'edit'])->name('edit');
             Route::post('', [SizeController::class, 'update'])->name('update');
+        });
+
+        Route::group(['prefix' => 'listings/{listing}/messages', 'as' => 'listings.messages.'], function () {
+            Route::get('create', [MessageController::class, 'create'])->name('create');
+            Route::post('', [MessageController::class, 'store'])->middleware('throttle:1,1')->name('store');
         });
     });
 

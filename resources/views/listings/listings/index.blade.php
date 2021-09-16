@@ -104,9 +104,13 @@
                                                     </form>
                                                 @endcan
 
-                                                @if($listing->user_id != auth()->id())
+                                                @can('saveListing', $listing)
                                                     @livewire('listing.save-button', ['listingId' => $listing->id])
                                                 @endif
+
+                                                @can('sendMessage', $listing)
+                                                    <a href="{{ route('listings.messages.create', $listing) }}" class="text-indigo-600 hover:text-indigo-900">Send message</a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
